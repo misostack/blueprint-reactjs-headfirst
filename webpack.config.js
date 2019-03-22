@@ -2,8 +2,9 @@ const path = require('path')
 const src = path.resolve(__dirname, 'src')
 const dist = path.resolve(__dirname, 'dist')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
-module.exports = {
+let config = {
     entry: {
         index: path.resolve(src, 'index.js')
     },
@@ -11,7 +12,6 @@ module.exports = {
         filename: '[name].js',
         path: dist
     },
-    mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
         port: 8081,
@@ -38,4 +38,22 @@ module.exports = {
             inject: 'body'
         })
     ]
+};
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        config.devtool = 'source-map';
+        config.output = {
+            filename: '[name].js',
+            path: dist
+        };
+    }
+
+    if (argv.mode === 'production') {
+        config.output = {
+            filename: '[name].min.js',
+            path: dist
+        };
+    }
+    return config;
 }
