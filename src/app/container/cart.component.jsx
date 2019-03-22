@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { hot } from 'react-hot-loader/root'
 
-export default class Cart extends React.Component {
+class CartComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -10,12 +11,14 @@ export default class Cart extends React.Component {
     render() {
         return (
             <div>
-                <h1>Cart</h1>
+                <h1>Cart 123</h1>
                 <p>Empty Cart</p>
             </div>
         )
     }
 }
+const Cart = () => <CartComponent></CartComponent>
+export default hot(Cart)
 
 /*
 render(){

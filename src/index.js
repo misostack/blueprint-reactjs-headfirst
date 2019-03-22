@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-
 import Cart from './app/container/cart.component';
 import Products from './app/container/products.component';
 

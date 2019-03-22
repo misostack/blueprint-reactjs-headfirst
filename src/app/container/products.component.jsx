@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { hot } from 'react-hot-loader/root'
 
-export default class Products extends React.Component {
+class ProductsComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -16,3 +17,5 @@ export default class Products extends React.Component {
         )
     }
 }
+const Products = () => <ProductsComponent></ProductsComponent>
+export default hot(Products);
