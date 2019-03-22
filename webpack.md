@@ -15,6 +15,8 @@ yarn add webpack webpack-cli -D
 
 - https://webpack.js.org/guides/getting-started/#using-a-configuration
 
+- Babel : https://babeljs.io/setup#installation
+
 ```javascript
 const path = require('path')
 const src = path.resolve(__dirname, 'src')

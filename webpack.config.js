@@ -17,6 +17,19 @@ module.exports = {
         port: 8081,
         contentBase: dist
     },
+    module: {
+        rules: [
+            // js, jsx
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_module/,
+                use: ['babel-loader']
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['*', '.js', '.jsx']
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(src, 'index.html'),
