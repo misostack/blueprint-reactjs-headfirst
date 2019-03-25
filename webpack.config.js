@@ -2,7 +2,28 @@ const path = require('path')
 const src = path.resolve(__dirname, 'src')
 const dist = path.resolve(__dirname, 'dist')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const getRules = function (mode) {
+    const rules = [
+        // js, jsx
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /node_module/,
+            use: ['babel-loader']
+        },
+        {
+            test: /\.(css|scss)$/,
+            use: [
+                // fallback to style-loader in development
+                mode !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                "css-loader",
+                "sass-loader"
+            ]
+        }
+    ];
+    return rules;
+}
 
 let config = {
     entry: {
@@ -19,14 +40,7 @@ let config = {
         hot: true
     },
     module: {
-        rules: [
-            // js, jsx
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_module/,
-                use: ['babel-loader']
-            }
-        ]
+        rules: []
     },
     resolve: {
         extensions: ['*', '.js', '.jsx']
@@ -36,6 +50,12 @@ let config = {
             template: path.resolve(src, 'index.html'),
             filename: 'index.html',
             inject: 'body'
+        }),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            chunkFilename: "[id].css"
         })
     ]
 };
@@ -55,5 +75,8 @@ module.exports = (env, argv) => {
             path: dist
         };
     }
+
+    config.module.rules = getRules(argv.mode);
+
     return config;
 }
