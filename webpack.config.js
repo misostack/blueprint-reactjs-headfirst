@@ -27,15 +27,15 @@ const getRules = function (mode) {
         // images
         {
             test: /\.(png|svg|jpe?g|gif)$/i,
-            use: [
+            use:[
                 {
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]?[hash]',
-                    context: 'src',
-                    outputPath: '',
-                    useRelativePath: false
-                }
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]?[hash]',
+                        context: 'src',
+                        outputPath: '',
+                        useRelativePath: false
+                    }
                 }
             ]
         },
@@ -54,8 +54,8 @@ const getPlugins = function (mode) {
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: "[name].css",
-            chunkFilename: "[id].css"
+            filename: "assets/css/[name]_[hash].css",
+            chunkFilename: "assets/css/[id]_[hash].css"
         })
     ];
     if (mode === 'production') {
@@ -99,12 +99,12 @@ module.exports = (env, argv) => {
 
     if (argv.mode === 'production') {
         config.output = {
-            filename: '[name].min.js',
+            filename: '[name]_[hash].min.js',
             path: dist
         };
     }
 
-    config.module.rules = getRules();
+    config.module.rules = getRules(argv.mode);
     config.plugins = getPlugins(argv.mode);
 
     return config;
