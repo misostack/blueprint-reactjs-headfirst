@@ -26,15 +26,18 @@ const getRules = function (mode) {
         },
         // images
         {
-            test: /\.(png|jpg|gif)$/,
+            test: /\.(png|svg|jpe?g|gif)$/i,
             use: [
                 {
-                    loader: 'file-loader',
-                    options: {
-                        publicPath: 'assets', // default is output.publicPath
-                    },
-                },
-            ],
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]?[hash]',
+                    context: 'src',
+                    outputPath: '',
+                    useRelativePath: false
+                }
+                }
+            ]
         },
     ];
     return rules;
@@ -68,7 +71,7 @@ let config = {
     output: {
         filename: '[name].js',
         path: dist,
-        publicPath: 'assets'
+        publicPath: ''
     },
     devtool: 'inline-source-map',
     devServer: {

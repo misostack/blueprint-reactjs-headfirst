@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import './scss/main.scss';
+import './styles.scss';
 import Cart from './app/container/cart.component';
 import Products from './app/container/products.component';
 
