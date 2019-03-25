@@ -1,6 +1,8 @@
-const path = require('path')
-const src = path.resolve(__dirname, 'src')
-const dist = path.resolve(__dirname, 'dist')
+const path = require('path');
+const src = path.resolve(__dirname, 'src');
+const dist = path.resolve(__dirname, 'dist');
+const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -12,6 +14,7 @@ const getRules = function (mode) {
             exclude: /node_module/,
             use: ['babel-loader']
         },
+        // css,scss
         {
             test: /\.(css|scss)$/,
             use: [
@@ -20,9 +23,42 @@ const getRules = function (mode) {
                 "css-loader",
                 "sass-loader"
             ]
-        }
+        },
+        // images
+        {
+            test: /\.(png|jpg|gif)$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        publicPath: 'assets', // default is output.publicPath
+                    },
+                },
+            ],
+        },
     ];
     return rules;
+}
+
+const getPlugins = function (mode) {
+    let plugins = [
+        new webpack.ProgressPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(src, 'index.html'),
+            filename: 'index.html',
+            // inject: 'body'
+        }),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        })
+    ];
+    if (mode === 'production') {
+        plugins.push(new CleanWebpackPlugin());
+    }
+    return plugins;
 }
 
 let config = {
@@ -31,7 +67,8 @@ let config = {
     },
     output: {
         filename: '[name].js',
-        path: dist
+        path: dist,
+        publicPath: 'assets'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -45,19 +82,7 @@ let config = {
     resolve: {
         extensions: ['*', '.js', '.jsx']
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(src, 'index.html'),
-            filename: 'index.html',
-            inject: 'body'
-        }),
-        new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: "[name].css",
-            chunkFilename: "[id].css"
-        })
-    ]
+    plugins: []
 };
 
 module.exports = (env, argv) => {
@@ -76,7 +101,8 @@ module.exports = (env, argv) => {
         };
     }
 
-    config.module.rules = getRules(argv.mode);
+    config.module.rules = getRules();
+    config.plugins = getPlugins(argv.mode);
 
     return config;
 }
