@@ -6,7 +6,7 @@ Version : 0.0.1
 ## Description
 
 ```HTML
-Example : Use ReactJS to build your custom JSCart in your current website. 
+Example : Use ReactJS to build a lol builder : choose hero and choose item + spell
 ```
 
 **Technical:**
@@ -20,3 +20,13 @@ Example : Use ReactJS to build your custom JSCart in your current website.
 - Make a wordpress plugin.
 
 ## Notes
+
+Champion : https://ddragon.leagueoflegends.com/cdn/9.6.1/img/champion/Azir.png
+
+### JSON
+
+https://na.leagueoflegends.com/en/game-info/champions/
+
+- https://ddragon.leagueoflegends.com/cdn/9.6.1/data/en_US/champion.json
+- https://ddragon.leagueoflegends.com/cdn/9.6.1/data/en_US/item.json
+- https://ddragon.leagueoflegends.com/cdn/9.6.1/data/en_US/summoner.json
